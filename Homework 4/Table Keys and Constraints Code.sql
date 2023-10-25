@@ -2,7 +2,7 @@ use homeworkfour;
 set foreign_key_checks = 0;
 set sql_safe_updates = 0;
 -- declaring the primary keys of each table
-/*alter table actor
+alter table actor
 add primary key(actor_id);
 
 -- address primary key
@@ -66,12 +66,12 @@ add constraint name_constraint check(name in ('Animation', 'Comedy', 'Family', '
 alter table city 
 add foreign key(country_id) references country(country_id);
 
--- issue code-------------------------------------------------------------------------------------------------
+
 alter table customer
 add foreign key(store_id) references store(store_id),
 add foreign key(address_id) references address(address_id),
 add constraint active_constraint check(active = 0 or active = 1);
--- issue code-------------------------------------------------------------------------------------------------
+
 
 alter table film
 add foreign key(language_id) references language(language_id),
@@ -103,14 +103,8 @@ add constraint amount_constraint check(amount >= 0);
 alter table rental
 add foreign key(inventory_id) references inventory(inventory_id),
 add foreign key(customer_id) references customer(customer_id),
-add foreign key(staff_id) references staff(staff_id)*/
--- issue code -------------------------------------------------------------------------------------
-/*add unique(inventory_id),
-add unique(customer_id),
-add unique(rental_date),
-add unique(inventory_id),
-add unique(customer_id)*/;
--- issue code --------------------------------------------------------------------------------------
+add foreign key(staff_id) references staff(staff_id),
+add unique(rental_date, inventory_id, customer_id);
 
 alter table staff
 add foreign key(address_id) references address(address_id),
