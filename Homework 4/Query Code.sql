@@ -65,3 +65,27 @@ where a.actor_id = b.actor_id and english_film_count >= all(select count(actor_i
                                                               where name = 'English'
                                                               group by actor_id);
 -- Query 4 END ---------------------------------------------------------------------------------------------------
+
+-- Query 5 -------------------------------------------------------------------------------------------------------
+select distinct count(film_id) as "Number of Distinct Films"
+from rental
+inner join inventory on rental.inventory_id = inventory.inventory_id
+inner join store on inventory.store_id = store.store_id
+inner join staff on store.store_id = staff.store_id
+where first_name = 'Mike' and (abs(datediff(rental_date, return_date)) = 10); -- getting staff with name mike and 10 day difference
+-- Query 5 END ---------------------------------------------------------------------------------------------------
+
+-- Query 6 -------------------------------------------------------------------------------------------------------
+select first_name, last_name
+from actor
+natural join film_actor
+-- filtering so that film_id is the same as the film_id with max actors
+where film_id = (select film_id
+				 from film_actor
+				 group by film_id
+                 -- getting list of number of actors for each film and then getting the max
+				 having count(actor_id) >= all(select count(actor_id)
+											   from film_actor
+											   group by film_id))
+order by first_name, last_name asc
+-- Query 6 END ---------------------------------------------------------------------------------------------------
