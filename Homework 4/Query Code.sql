@@ -1,5 +1,6 @@
 use homeworkfour;
 -- Query 1 -------------------------------------------------------------------------------------------------------
+-- What is the average length of films in each category? List the results in alphabetic order of categories. 
 select name, avg(length) as "Average Film Length"
 from film
 natural join film_category 
@@ -9,6 +10,7 @@ order by name asc;
 -- Query 1 END ---------------------------------------------------------------------------------------------------
 
 -- Query 2 -------------------------------------------------------------------------------------------------------
+-- Which categories have the longest and shortest average film lengths?
 select name, avg(length) as "average_film_length"
 from film
 natural join film_category
@@ -29,6 +31,7 @@ order by name asc;
 -- Query 2 END ---------------------------------------------------------------------------------------------------
 
 -- Query 3 -------------------------------------------------------------------------------------------------------
+-- Which customers have rented action but not comedy or classic movies?
 select distinct first_name, last_name              -- getting people who rented action movies
 from customer
 natural join rental
@@ -49,6 +52,7 @@ where name = 'Comedy' or name = 'Classics'
 -- Query 3 END ---------------------------------------------------------------------------------------------------
 
 -- Query 4 -------------------------------------------------------------------------------------------------------
+-- Which actor has appeared in the most English-language movies?
 select a.first_name, a.last_name, b.english_film_count as "english_film_count" 
 from actor a, (select actor_id, count(actor_id) as "english_film_count"     -- tables getting count for all actors
 				from actor
@@ -67,6 +71,7 @@ where a.actor_id = b.actor_id and english_film_count >= all(select count(actor_i
 -- Query 4 END ---------------------------------------------------------------------------------------------------
 
 -- Query 5 -------------------------------------------------------------------------------------------------------
+-- How many distinct movies were rented for exactly 10 days from the store where Mike works?
 select distinct count(film_id) as "Number of Distinct Films"
 from rental
 inner join inventory on rental.inventory_id = inventory.inventory_id
@@ -76,6 +81,7 @@ where first_name = 'Mike' and (abs(datediff(rental_date, return_date)) = 10); --
 -- Query 5 END ---------------------------------------------------------------------------------------------------
 
 -- Query 6 -------------------------------------------------------------------------------------------------------
+-- Alphabetically list actors who appeared in the movie with the largest cast of actors.
 select first_name, last_name
 from actor
 natural join film_actor
