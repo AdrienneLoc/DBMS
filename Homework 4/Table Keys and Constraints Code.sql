@@ -76,11 +76,11 @@ add constraint active_constraint check(active = 0 or active = 1);
 alter table film
 add foreign key(language_id) references language(language_id),
 add constraint special_features_constraint check(special_features in ('Behind the Scenes', 'Commentaries', 'Deleted Scenes', 'Trailers')),
-add constraint rental_duration_constraint check(rental_duration between 2 and 8),
-add constraint rental_rate_constraint check(rental_rate between 0.99 and 6.99),
-add constraint length_constraint check(length between 30 and 200),
-add constraint rating_constraint check(rating in ('PG', 'G', 'NC-17', 'PG-13', 'R')),
-add constraint replacement_cost_constraint check(replacement_cost between 5.00 and 100.00);
+add constraint rental_duration_constraint check(rental_duration between 2 and 8), -- duration constraint 
+add constraint rental_rate_constraint check(rental_rate between 0.99 and 6.99), -- rental rate constraint 
+add constraint length_constraint check(length between 30 and 200), -- length constraint 
+add constraint rating_constraint check(rating in ('PG', 'G', 'NC-17', 'PG-13', 'R')), -- rating constraint 
+add constraint replacement_cost_constraint check(replacement_cost between 5.00 and 100.00); -- replacement cost constraint 
 
 alter table film_actor
 add foreign key(actor_id) references actor(actor_id),
@@ -98,13 +98,16 @@ alter table payment
 add foreign key(customer_id) references customer(customer_id),
 add foreign key(staff_id) references staff(staff_id),
 add foreign key(rental_id) references rental(rental_id),
-add constraint amount_constraint check(amount >= 0);
+add constraint payment_date_constraint check(payment_date between date("2000-01-01") and date("2017-01-01")), -- payment date constraint 
+add constraint amount_constraint check(amount >= 0); -- amount constraint
 
 alter table rental
 add foreign key(inventory_id) references inventory(inventory_id),
 add foreign key(customer_id) references customer(customer_id),
 add foreign key(staff_id) references staff(staff_id),
-add unique(rental_date, inventory_id, customer_id);
+add constraint return_date_constraint check(return_date between date("2000-01-01") and date("2017-01-01")), -- return date constraint
+add constraint rental_date_constraint check(rental_date between date("2000-01-01") and date("2017-01-01")), -- rental date constraint 
+add unique(rental_date, inventory_id, customer_id); -- unique constraint
 
 alter table staff
 add foreign key(address_id) references address(address_id),
